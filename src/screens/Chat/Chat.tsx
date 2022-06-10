@@ -20,6 +20,7 @@ import db from '@react-native-firebase/firestore';
 import React from 'react';
 import {TUserData} from '../../reducers/profile';
 import {
+  ActionsProps,
   AvatarProps,
   Bubble,
   BubbleProps,
@@ -39,7 +40,7 @@ type TChatProps = {};
 
 const Chat: React.FC<TChatProps> = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [imag, setImage] = useState<string>('');
+  const [img, setImg] = useState<string>('');
   const [imageUri, setImageUri] = useState('');
   const [active, setActive] = useState<boolean>(false);
   const user: TUserData = useAppSelector(state => state.profileSlice.user);
@@ -65,17 +66,17 @@ const Chat: React.FC<TChatProps> = () => {
   }, []);
 
   const createImageUri = useCallback(async () => {
-    const imageName = imag ? await Storage.setStorage(imag) : null;
-    const img = imageName ? await Storage.getUri(imageName) : '';
-    setImageUri(img);
+    const imageName = img ? await Storage.setStorage(img) : null;
+    const imageUrl = imageName ? await Storage.getUri(imageName) : '';
+    setImageUri(imageUrl);
     return;
-  }, [imag]);
+  }, [img]);
 
   useEffect(() => {
-    if (imag) {
+    if (img) {
       createImageUri();
     }
-  }, [imag]);
+  }, [img]);
 
   const onSend = useCallback(
     (messages = []) => {
@@ -94,7 +95,7 @@ const Chat: React.FC<TChatProps> = () => {
         user,
         image: imageUri,
       });
-      setImage('');
+      setImg('');
     },
     [imageUri],
   );
@@ -208,6 +209,16 @@ const Chat: React.FC<TChatProps> = () => {
     [],
   );
 
+  const renderActions = useCallback(
+    (props: ActionsProps) => {
+      return (
+        <View {...(props.containerStyle = styles.loadingImageContainer)}>
+          <ImageInput imageUri={img || ''} setImageUri={setImg} />
+        </View>
+      );
+    },
+    [img],
+  );
   return (
     <View style={styles.container}>
       <GiftedChat
@@ -223,13 +234,7 @@ const Chat: React.FC<TChatProps> = () => {
         renderSend={renderSend}
         renderComposer={renderComposer}
         renderBubble={renderBubble}
-        renderActions={props => {
-          return (
-            <View {...(props.containerStyle = styles.loadingImageContainer)}>
-              <ImageInput imageUri={imag || ''} setImageUri={setImage} />
-            </View>
-          );
-        }}
+        renderActions={renderActions}
         renderMessageImage={renderMessageImage}
       />
     </View>
