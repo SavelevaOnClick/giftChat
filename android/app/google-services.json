@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1060750709452",
+    "project_id": "artchat-6d9c2",
+    "storage_bucket": "artchat-6d9c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060750709452:android:85583dd66d42ee62882869",
+        "android_client_info": {
+          "package_name": "com.testchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060750709452-uds6vpsbrs8c4lbbsq50h6v5420masla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfIcwMJsrZ-IwxKuF7PnnfgNbFd_0qbNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060750709452-uds6vpsbrs8c4lbbsq50h6v5420masla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
