@@ -41,4 +41,16 @@ export default StyleSheet.create({
   bubbleContainer: {
     backgroundColor: '#f0f0f0',
   },
+  sendButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chatToolBar: {
+    borderTopWidth: 0,
+    paddingHorizontal: 16,
+    paddingBottom: 5,
+  },
+  messagesContainer: {
+    paddingBottom: 5,
+  },
 });

@@ -27,6 +27,8 @@ import {
   ComposerProps,
   GiftedChat,
   IMessage,
+  InputToolbar,
+  InputToolbarProps,
   MessageImageProps,
   Send,
   SendProps,
@@ -35,13 +37,12 @@ import assets from '@assets';
 import styles from './styles';
 import EmojiSelector, {Categories} from 'react-native-emoji-selector';
 import {Storage} from '../../services/firebase';
-
+import {Keyboard} from 'react-native';
 type TChatProps = {};
 
 const Chat: React.FC<TChatProps> = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [img, setImg] = useState<string>('');
-  const [imageUri, setImageUri] = useState('');
   const [active, setActive] = useState<boolean>(false);
   const user: TUserData = useAppSelector(state => state.profileSlice.user);
 
@@ -65,39 +66,35 @@ const Chat: React.FC<TChatProps> = () => {
     return unsubscribe;
   }, []);
 
-  const createImageUri = useCallback(async () => {
-    const imageName = img ? await Storage.setStorage(img) : null;
-    const imageUrl = imageName ? await Storage.getUri(imageName) : '';
-    setImageUri(imageUrl);
-    return;
-  }, [img]);
-
-  useEffect(() => {
-    if (img) {
-      createImageUri();
-    }
-  }, [img]);
+  const createImageUri = useCallback(
+    async img => {
+      const imageName = img ? await Storage.setStorage(img) : null;
+      const imageUrl = imageName ? await Storage.getUri(imageName) : '';
+      return imageUrl;
+    },
+    [img],
+  );
 
   const onSend = useCallback(
     (messages = []) => {
+      Keyboard.dismiss();
       setMessages(previousMessages => {
-        return GiftedChat.append(previousMessages, [
-          {...messages, image: imageUri},
-        ]);
+        return GiftedChat.append(previousMessages, [{...messages, image: img}]);
       });
 
       const {_id, text, createdAt, user} = messages[0];
-
-      db().collection('chats').add({
-        _id,
-        text,
-        createdAt,
-        user,
-        image: imageUri,
+      createImageUri(img).then(response => {
+        setImg('');
+        db().collection('chats').add({
+          _id,
+          text,
+          createdAt,
+          user,
+          image: response,
+        });
       });
-      setImg('');
     },
-    [imageUri],
+    [img],
   );
 
   const renderAvatar = useCallback((props: AvatarProps<IMessage>) => {
@@ -106,7 +103,7 @@ const Chat: React.FC<TChatProps> = () => {
         props.currentMessage?.user.avatar
           ? {uri: props.currentMessage?.user.avatar}
           : assets.images.DEFAULT_AVATAR_WOMEN,
-      [props],
+      [],
     );
     return (
       <View style={styles.avatar}>
@@ -150,9 +147,11 @@ const Chat: React.FC<TChatProps> = () => {
               onChangeText={props.onTextChanged}
               style={styles.messageInput}
               keyboardType="default"
+              onFocus={() => setActive(true)}
+              onBlur={() => setActive(false)}
             />
           </View>
-          {active ? (
+          {/* {active ? (
             <EmojiSelector
               onEmojiSelected={setEmogie}
               showSearchBar={false}
@@ -161,22 +160,25 @@ const Chat: React.FC<TChatProps> = () => {
               showSectionTitles={false}
               category={Categories.emotion}
             />
-          ) : null}
+          ) : null} */}
         </SafeAreaView>
       );
     },
     [active],
   );
-  const renderSend = useCallback((props: SendProps<IMessage>) => {
-    return (
-      <Send
-        {...props}
-        alwaysShowSend={true}
-        containerStyle={{justifyContent: 'center', alignItems: 'center'}}>
-        <Icon name="mail2" size={24} />
-      </Send>
-    );
-  }, []);
+  const renderSend = useCallback(
+    (props: SendProps<IMessage>) => {
+      return (
+        <Send
+          {...props}
+          alwaysShowSend={true}
+          containerStyle={styles.sendButton}>
+          <Icon name="mail2" size={24} />
+        </Send>
+      );
+    },
+    [img],
+  );
 
   const renderMessageImage = useCallback(
     (props: MessageImageProps<IMessage>) => {
@@ -184,6 +186,7 @@ const Chat: React.FC<TChatProps> = () => {
         <Image
           source={{uri: props.currentMessage?.image}}
           style={styles.renderImage}
+          resizeMode="cover"
         />
       );
     },
@@ -219,25 +222,32 @@ const Chat: React.FC<TChatProps> = () => {
     },
     [img],
   );
+
+  const renderInputToolBar = useCallback(
+    (props: InputToolbarProps<IMessage>) => {
+      return <InputToolbar {...props} containerStyle={styles.chatToolBar} />;
+    },
+    [],
+  );
+
   return (
-    <View style={styles.container}>
-      <GiftedChat
-        messages={messages}
-        wrapInSafeArea={true}
-        onSend={messages => {
-          onSend(messages);
-        }}
-        showAvatarForEveryMessage={true}
-        showUserAvatar={true}
-        user={userData}
-        renderAvatar={renderAvatar}
-        renderSend={renderSend}
-        renderComposer={renderComposer}
-        renderBubble={renderBubble}
-        renderActions={renderActions}
-        renderMessageImage={renderMessageImage}
-      />
-    </View>
+    <GiftedChat
+      messages={messages}
+      onSend={onSend}
+      showAvatarForEveryMessage={true}
+      showUserAvatar={true}
+      user={userData}
+      renderAvatar={renderAvatar}
+      renderSend={renderSend}
+      renderComposer={renderComposer}
+      renderBubble={renderBubble}
+      renderActions={renderActions}
+      renderMessageImage={renderMessageImage}
+      messagesContainerStyle={styles.messagesContainer}
+      bottomOffset={0}
+      renderInputToolbar={renderInputToolBar}
+    />
+    // </KeyboardAvoidingView>
   );
 };
 export default Chat;

@@ -37,15 +37,15 @@ export class authh {
     password: string;
     displayName?: string;
     photoURL?: string;
-  }): Promise<any> {
+  }): Promise<FirebaseAuthTypes.User> {
     const {user} = await farebase().createUserWithEmailAndPassword(
       body.email,
       body.password,
     );
     const {displayName, photoURL} = body;
-    if (displayName || photoURL) {
-      authh.updateUser(user, {displayName, photoURL});
-    }
+    (displayName || photoURL) &&
+      (await authh.updateUser(user, {displayName, photoURL}));
+
     return user;
   }
 }
