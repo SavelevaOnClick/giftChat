@@ -38,6 +38,7 @@ import styles from './styles';
 import EmojiSelector, {Categories} from 'react-native-emoji-selector';
 import {Storage} from '../../services/firebase';
 import {Keyboard} from 'react-native';
+import {v4 as uuidv4} from 'uuid';
 type TChatProps = {};
 
 const Chat: React.FC<TChatProps> = () => {
@@ -114,11 +115,12 @@ const Chat: React.FC<TChatProps> = () => {
   }, []);
 
   const userData = useMemo(
-    () => ({
-      _id: user.userEmail,
-      name: user.userName || 'user',
-      avatar: user.userAvatar || '',
-    }),
+    () =>
+      user && {
+        _id: user.userEmail || '',
+        name: user.userName || 'user',
+        avatar: user.userAvatar || '',
+      },
     [user],
   );
 
@@ -240,7 +242,7 @@ const Chat: React.FC<TChatProps> = () => {
       renderAvatar={renderAvatar}
       renderSend={renderSend}
       renderComposer={renderComposer}
-      renderBubble={renderBubble}
+      // renderBubble={renderBubble}
       renderActions={renderActions}
       renderMessageImage={renderMessageImage}
       messagesContainerStyle={styles.messagesContainer}
