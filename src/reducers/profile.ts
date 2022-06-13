@@ -11,6 +11,7 @@ export interface ProfileState {
   error: null | string;
 }
 export type TUserData = {
+  email: string | null;
   userAvatar: string | null;
   userName: string | null;
   userEmail: string;

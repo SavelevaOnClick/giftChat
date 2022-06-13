@@ -18,6 +18,7 @@ type TImageInputProps = {
   setImageUri: (imageUri: string) => void;
   imageStyles?: StyleProp<ImageStyle>;
   imageContainerStyles?: StyleProp<ViewStyle>;
+  iconColor?: string;
 };
 
 const ImageInput: React.FC<TImageInputProps> = ({
@@ -25,6 +26,7 @@ const ImageInput: React.FC<TImageInputProps> = ({
   setImageUri,
   imageStyles = {},
   imageContainerStyles = {},
+  iconColor = '#000',
 }) => {
   const openImage: () => Promise<void> = useCallback(async () => {
     ImagePicker.launchImageLibrary(
@@ -80,7 +82,7 @@ const ImageInput: React.FC<TImageInputProps> = ({
       ) : (
         <View style={styles.pressableContainer}>
           <View style={styles.iconContainer}>
-            <Icon size={24} name={'Property-1photo-camera'} color={'black'} />
+            <Icon size={27} name={'camera'} color={iconColor} />
           </View>
         </View>
       )}

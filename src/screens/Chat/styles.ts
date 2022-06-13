@@ -1,6 +1,11 @@
 import {StyleSheet} from '@components';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#89CFF0',
+    paddingBottom: 20,
+  },
   avatar: {
     alignItems: 'center',
   },
@@ -8,12 +13,6 @@ export default StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 9,
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-    paddingBottom: 16,
   },
   chatInputMainContainer: {
     flex: 1,
@@ -25,9 +24,11 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
   messageInput: {
-    borderBottomColor: 'grey',
+    borderBottomColor: '#fff',
     flex: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
+    marginRight: 10,
+    paddingLeft: 10,
   },
   loadingImageContainer: {
     justifyContent: 'center',
@@ -37,10 +38,24 @@ export default StyleSheet.create({
   renderImage: {
     width: 100,
     height: 100,
+    borderRadius: 0,
   },
-  bubbleContainer: {
+  renderImageContainer: {
+    alignItems: 'center',
+  },
+  inputImage: {
+    width: 50,
+    height: 50,
+  },
+  bubbleLeft: {
     backgroundColor: '#f0f0f0',
+    textAlign: 'center',
   },
+  bubbleRight: {
+    backgroundColor: '#89CFF0',
+    textAlign: 'center',
+  },
+
   sendButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,9 +63,15 @@ export default StyleSheet.create({
   chatToolBar: {
     borderTopWidth: 0,
     paddingHorizontal: 16,
-    paddingBottom: 5,
+    marginBottom: -25,
+    height: 70,
+    backgroundColor: '#89CFF0',
+    borderRadius: 19,
   },
   messagesContainer: {
-    paddingBottom: 5,
+    paddingBottom: 25,
+    backgroundColor: '#fff',
+    borderBottomRightRadius: 49,
+    borderBottomLeftRadius: 49,
   },
 });

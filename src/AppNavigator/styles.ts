@@ -12,4 +12,11 @@ export default StyleSheet.create({
     height: 50,
     borderRadius: 50 / 2,
   },
+  headerTitle: {
+    color: '#fff',
+    textTransform: 'uppercase',
+  },
+  header: {
+    backgroundColor: '#89CFF0',
+  },
 });

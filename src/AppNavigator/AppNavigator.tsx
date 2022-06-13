@@ -44,9 +44,11 @@ const AppNavigator: React.FC<TAppNavigatorProps> = () => {
                 <TouchableOpacity
                   onPress={onPressLogout}
                   style={styles.headerRight}>
-                  <Icon name="exit" size={24} />
+                  <Icon name="exit" size={24} color="#fff" />
                 </TouchableOpacity>
               ),
+              headerStyle: styles.header,
+              headerTitleStyle: styles.headerTitle,
             }}
           />
         ) : (
