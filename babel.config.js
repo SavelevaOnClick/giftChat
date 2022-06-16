@@ -9,8 +9,8 @@ module.exports = {
           '@components': ['./src/components'],
           '@screens': ['./src/screens'],
           '@hooks': ['./src/hooks'],
-          '@assets': ['./src/assets']
-        },
+          '@assets': ['./src/assets'],
+          '@types': ['./src/types']        },
         cwd: 'packagejson',
       },
     ],

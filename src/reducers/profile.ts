@@ -1,8 +1,9 @@
 import {ReactNativeFirebase} from '@react-native-firebase/app';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {authh} from '../services/firebase';
+import {firebaseErrors} from '@types';
+import {Auth} from '../services/firebase';
 
 export interface ProfileState {
   user: null | any;
@@ -28,11 +29,11 @@ export const signIn = createAsyncThunk<
   {email: string; password: string}
 >('profile/signIn', async ({email, password}, thunkAPI) => {
   try {
-    const {user}: FirebaseAuthTypes.UserCredential = await authh.signIn({
+    const {user}: FirebaseAuthTypes.UserCredential = await Auth.signIn({
       email,
       password,
     });
-    const token = await authh.getToken();
+    const token = await Auth.getToken();
     return {
       token,
       data: {
@@ -43,14 +44,14 @@ export const signIn = createAsyncThunk<
     };
   } catch (e) {
     const error = e as ReactNativeFirebase.NativeFirebaseError;
-    if (error.code === 'auth/email-already-in-use') {
+    if (error.code === firebaseErrors.EMAIL_IN_USE) {
       return thunkAPI.rejectWithValue('That email address is already in use!');
     }
 
-    if (error.code === 'auth/invalid-email') {
+    if (error.code === firebaseErrors.INVALIDE_EMALE) {
       return thunkAPI.rejectWithValue('That email address is invalid!');
     }
-    return thunkAPI.rejectWithValue('user Not founded');
+    return thunkAPI.rejectWithValue('user not founded');
   }
 });
 
@@ -61,7 +62,7 @@ export const signUp = createAsyncThunk<
   'profile/signUp',
   async ({email, password, displayName, photoURL}, thunkAPI) => {
     try {
-      const {user}: FirebaseAuthTypes.UserCredential = await authh.signUp({
+      await Auth.signUp({
         email,
         password,
         displayName,
@@ -71,13 +72,13 @@ export const signUp = createAsyncThunk<
       thunkAPI.dispatch(signIn({email, password}));
     } catch (e) {
       const error = e as ReactNativeFirebase.NativeFirebaseError;
-      if (error.code === 'auth/email-already-in-use') {
+      if (error.code === firebaseErrors.EMAIL_IN_USE) {
         return thunkAPI.rejectWithValue(
           'That email address is already in use!',
         );
       }
 
-      if (error.code === 'auth/invalid-email') {
+      if (error.code === firebaseErrors.INVALIDE_EMALE) {
         return thunkAPI.rejectWithValue('That email address is invalid!');
       }
       return thunkAPI.rejectWithValue('something wrong');

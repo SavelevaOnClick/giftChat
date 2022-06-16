@@ -29,29 +29,12 @@ const SignUp: React.FC<TSignUpProps> = () => {
   return (
     <KeyboardAwareScrollView style={styles.container}>
       {isLoading && token ? (
-        <View
-          style={{
-            position: 'absolute',
-            backgroundColor: '#fff',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}>
-          <Text style={{fontSize: 34}}>LOADING...</Text>
+        <View style={styles.loaderContainer}>
+          <Text style={styles.descriptionLoader}>LOADING...</Text>
         </View>
       ) : null}
 
       <>
-        <MainInput
-          value={password}
-          setValue={setPassword}
-          containerStyle={styles.range}
-          placeholder={'password'}
-        />
         <MainInput
           value={name}
           setValue={setName}
@@ -64,6 +47,12 @@ const SignUp: React.FC<TSignUpProps> = () => {
           keyboardType="email-address"
           containerStyle={styles.range}
           placeholder={'e-mail'}
+        />
+        <MainInput
+          value={password}
+          setValue={setPassword}
+          containerStyle={styles.range}
+          placeholder={'password'}
         />
         <ImageInput imageUri={image} setImageUri={setImage} />
       </>

@@ -22,4 +22,18 @@ export default StyleSheet.create({
   errorDescription: {
     textAlign: 'center',
   },
+  loaderContainer: {
+    position: 'absolute',
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  descriptionLoader: {
+    fontSize: 34,
+  },
 });

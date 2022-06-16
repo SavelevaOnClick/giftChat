@@ -1,4 +1,5 @@
 import {StyleSheet} from '@components';
+import {Dimensions} from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -16,6 +17,7 @@ export default StyleSheet.create({
   },
   chatInputMainContainer: {
     flex: 1,
+    zIndex: 1,
   },
   chatInputText: {
     flexDirection: 'row',
@@ -73,5 +75,17 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomRightRadius: 49,
     borderBottomLeftRadius: 49,
+  },
+  emojiContainer: {
+    height: 150,
+    position: 'absolute',
+    bottom: 100,
+    borderWidth: 2,
+    borderColor: '#89CFF0',
+    width: Dimensions.get('screen').width - 32,
+    marginLeft: 16,
+    backgroundColor: '#fff',
+    borderRadius: 19,
+    padding: 5,
   },
 });

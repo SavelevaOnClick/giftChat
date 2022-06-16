@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-community/image-editor": "^2.3.0",
+    "@react-native-community/viewpager": "^5.0.11",
     "@react-native-firebase/app": "^14.11.0",
     "@react-native-firebase/auth": "^14.11.0",
     "@react-native-firebase/firestore": "^14.11.0",
@@ -21,8 +22,10 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@types/react-redux": "^7.1.24",
     "babel-plugin-module-resolver": "^4.1.0",
+    "npm": "^8.12.2",
     "react": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-emoji-board": "^1.2.1",
     "react-native-emoji-selector": "^0.2.0",
     "react-native-gesture-handler": "^2.4.2",
     "react-native-gifted-chat": "^1.0.0",

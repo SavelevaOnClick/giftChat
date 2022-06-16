@@ -1,7 +1,7 @@
 import farebase, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import storage, {FirebaseStorageTypes} from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
 
-export class authh {
+export class Auth {
   static async signIn(body: {
     email: string;
     password: string;
@@ -44,7 +44,7 @@ export class authh {
     );
     const {displayName, photoURL} = body;
     (displayName || photoURL) &&
-      (await authh.updateUser(user, {displayName, photoURL}));
+      (await Auth.updateUser(user, {displayName, photoURL}));
 
     return user;
   }

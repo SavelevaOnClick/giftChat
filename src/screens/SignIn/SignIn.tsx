@@ -1,8 +1,7 @@
 import {MainButton, MainInput, Text, View} from '@components';
-import {useAppDispatch, useAppSelector, useState} from '@hooks';
+import {useAppDispatch, useAppSelector, useState, useCallback} from '@hooks';
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
-import {useCallback} from 'react';
+import React from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {signIn} from '../../reducers/profile';
 import styles from './styles';
@@ -11,7 +10,7 @@ type TSignInProps = {};
 
 const SignIn: React.FC<TSignInProps> = () => {
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState<string>('');
   const dispatch = useAppDispatch();
   const {isLoading, error} = useAppSelector(state => state.profileSlice);
 
@@ -24,8 +23,6 @@ const SignIn: React.FC<TSignInProps> = () => {
         password,
       }),
     );
-    setEmail('');
-    setPassword('');
   }, [email, password]);
 
   const onPressLink = useCallback(
@@ -38,18 +35,19 @@ const SignIn: React.FC<TSignInProps> = () => {
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <MainInput
-        value={password}
-        setValue={setPassword}
-        containerStyle={styles.range}
-        placeholder={'name'}
-      />
-      <MainInput
         value={email}
         setValue={setEmail}
         keyboardType="email-address"
         containerStyle={styles.range}
         placeholder={'e-mail'}
       />
+      <MainInput
+        value={password}
+        setValue={setPassword}
+        containerStyle={styles.range}
+        placeholder={'password'}
+      />
+
       <View style={styles.buttonContainer}>
         <MainButton
           onPressHandler={onPressSignIn}
